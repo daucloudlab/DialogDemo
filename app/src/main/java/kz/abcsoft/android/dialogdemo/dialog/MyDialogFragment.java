@@ -17,23 +17,33 @@ public class MyDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         final String[] catNamesArray = {"Васька", "Рыжик", "Мурзик"};
+        final boolean[] checkedItemsArray = {false, true, false};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Выберите любимое имя кота") ;
         builder.setIcon(R.mipmap.ic_launcher);
-        builder.setSingleChoiceItems(catNamesArray, -1, new DialogInterface.OnClickListener() {
+        builder.setMultiChoiceItems(catNamesArray, checkedItemsArray, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getActivity(), "Любимое имя кота: " + catNamesArray[i],
-                        Toast.LENGTH_SHORT).show();
-
+            public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                checkedItemsArray[i] = b ;
             }
         }) ;
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Готово", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
+            public void onClick(DialogInterface dialogInterface, int id) {
+                StringBuilder state = new StringBuilder();
+                for (int i = 0; i < catNamesArray.length; i++) {
+                    state.append("" + catNamesArray[i]);
+                    if (checkedItemsArray[i])
+                        state.append(" выбран\n");
+                    else
+                        state.append(" не выбран\n");
+                }
+                Toast.makeText(getActivity(),
+                        state.toString(), Toast.LENGTH_LONG)
+                        .show();
             }
+
         }) ;
         return builder.create() ;
     }

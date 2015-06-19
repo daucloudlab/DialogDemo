@@ -19,13 +19,20 @@ public class MyDialogFragment extends DialogFragment {
         final String[] catNamesArray = {"Васька", "Рыжик", "Мурзик"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Выберите Кота") ;
+        builder.setTitle("Выберите любимое имя кота") ;
         builder.setIcon(R.mipmap.ic_launcher);
-        builder.setItems(catNamesArray, new DialogInterface.OnClickListener() {
+        builder.setSingleChoiceItems(catNamesArray, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getActivity(), "Выбранный кот: " + catNamesArray[i],
+                Toast.makeText(getActivity(), "Любимое имя кота: " + catNamesArray[i],
                         Toast.LENGTH_SHORT).show();
+
+            }
+        }) ;
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
             }
         }) ;
         return builder.create() ;
